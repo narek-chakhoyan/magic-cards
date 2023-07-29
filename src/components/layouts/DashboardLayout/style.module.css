@@ -1,0 +1,11 @@
+.dashboardContainer{
+    background-color: green;
+    display: flex;
+    justify-content: center;
+}
+.usersList{
+    background-color: red;
+}
+.mainContainer{
+    background-color: yellow;
+}

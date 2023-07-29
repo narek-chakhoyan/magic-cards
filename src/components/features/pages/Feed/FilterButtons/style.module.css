@@ -1,0 +1,9 @@
+.filterButtons{
+    width: 500px;
+    padding:10px;
+    display: flex;
+    justify-content: space-between;
+}
+.buttonGroup{
+    display: flex;
+}
