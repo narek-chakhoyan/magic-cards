@@ -41,10 +41,6 @@ export const SignUp = () => {
     }
   },[auth]);
 
-  // const getAuth = () => {
-  //   return auth ?? JSON.parse(localStorage.getItem("auth"));
-  // };
-
   return  (
     <div>
       <div>

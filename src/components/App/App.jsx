@@ -8,6 +8,7 @@ import RequireAuth from "components/features/ReuireAuth";
 import { Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getAuthUser } from "store/redux/slices/usersSlice";
+import { UserPage } from "components/features/pages/UserPage/UserPage";
 
 function App() {
   const auth = useSelector(getAuthUser);
@@ -19,9 +20,10 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
 
-          <Route element={<RequireAuth auth = {auth} />}>
+          <Route element={<RequireAuth auth={auth} />}>
             <Route path="/" element={<Feed />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="/:id" element={<UserPage />} />
           </Route>
 
           <Route path="*" element={<Missing />} />
