@@ -9,23 +9,25 @@ const DashboardLayout = ({ children }) => {
   const users = useSelector(getUsers);
   const auth = useSelector(getAuthUser);
 
-
+  console.log(users, "get All Users");
+  
   useEffect(()=>{
     const filteredUsers = users.filter((user)=>user.email !== auth.email);
     setAllUsers(filteredUsers);
   },[users]);
 
-
+console.log(allUsers,"allUsers");
   return (
     <div className={styles.dashboardContainer}>
       <div className={styles.usersList}>
-        {allUsers.map((user)=>{
+        <h3>Users all</h3>
+        {allUsers?.map((user) => {
           return (
             <h2>
-              <NavLink  to={`${user.id}`}>{user.name}</NavLink>
+              <NavLink to={`${user.id}`}>{user.name}</NavLink>
             </h2>
           );
-        })} 
+        })}
       </div>
       <div className={styles.mainContainer}>{children}</div>
     </div>

@@ -16,7 +16,6 @@ export const getAllUsers = createAsyncThunk("users/getAllUsers", async (value) =
 });
 
 export const loginUser = createAsyncThunk("users/loginUser",async(value)=>{
-  console.log(3333)
   const res = await loginUserApi(value);
   return res;
 })

@@ -1,8 +1,8 @@
 export const fackeFetchApi = (key) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const rendomNum = Math.random();
-      if (rendomNum < 0.3) reject();
+      // const rendomNum = Math.random();
+      // if (rendomNum < 0.3) reject();
 
       const result = localStorage.getItem(key);
 
@@ -38,6 +38,7 @@ export const createCardApi = (data) => {
       const cards = JSON.parse(localStorage.getItem("cards"));
       const mappedValues = {
         ...data,
+        favorites: false,
         id,
         createdDate,
       };
@@ -45,10 +46,53 @@ export const createCardApi = (data) => {
       localStorage.removeItem("cards");
       cards.push(mappedValues);
       localStorage.setItem("cards", JSON.stringify(cards));
-      resolve(mappedValues);
+      resolve(cards);
     }, 2000);
   });
 };
+
+export const getAllFavoriteCards =()=>{
+  return new Promise((resolve,reject)=>{
+    setTimeout(()=>{
+      const allCards = JSON.parse(localStorage.getItem("cards"));
+      const favoriteCards = allCards.filter((card)=>card.favorites);
+      resolve(favoriteCards);
+    },1000);
+  })
+}
+
+
+export const fetchNewToOldCardsApi = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const allCards = JSON.parse(localStorage.getItem("cards"));
+      const compareDates = (a, b) =>
+        new Date(b.createdDate) - new Date(a.createdDate);
+
+      // Sort the dateList in descending order (newest to oldest)
+      const sortedDates = allCards.sort(compareDates);
+
+      resolve(sortedDates);
+    }, 1000);
+  });
+};
+
+
+
+export const fetchOldToNewCardsApi =()=>{
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const allCards = JSON.parse(localStorage.getItem("cards"));
+      const compareDates = (a, b) =>
+        new Date(a.createdDate) - new Date(b.createdDate);
+
+      // Sort the dateList in descending order (newest to oldest)
+      const sortedDates = allCards.sort(compareDates);
+
+      resolve(sortedDates);
+    }, 1000);
+  });
+}
 
 export const registerUserApi = (user) => {
   return new Promise((resolve, reject) => {

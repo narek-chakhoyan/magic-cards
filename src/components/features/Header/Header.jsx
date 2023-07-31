@@ -26,7 +26,6 @@ export const Header = () => {
   }
 
   const createCard =()=>{
-    console.log(cardValues)
     dispatch(createNewCard( cardValues ));
   }
 
