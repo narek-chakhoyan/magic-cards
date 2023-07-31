@@ -16,9 +16,25 @@ export const fackeFetchApi = (key) => {
   });
 };
 
+export const fetchToggleFavorite = (id) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const allCards = JSON.parse(localStorage.getItem("cards"));
+      const favoriteCards = allCards.map((card) => {
+        if (card.id === id) {
+          return { ...card, favorites: !card.favorites };
+        }
+        return card;
+      });
+      localStorage.removeItem("cards");
+      localStorage.setItem("cards", JSON.stringify(favoriteCards));
+      resolve(favoriteCards);
+    }, 1000);
+  });
+};
+
 export const loginUserApi = (loginUser) => {
   return new Promise((resolve, reject) => {
-
     const data = JSON.parse(localStorage.getItem("users"));
     const currentUser = data.find((user) => user.email === loginUser.email);
     if (!currentUser) {
@@ -51,52 +67,48 @@ export const createCardApi = (data) => {
   });
 };
 
-export const getAllFavoriteCards =()=>{
-  return new Promise((resolve,reject)=>{
-    setTimeout(()=>{
-      const allCards = JSON.parse(localStorage.getItem("cards"));
-      const favoriteCards = allCards.filter((card)=>card.favorites);
-      resolve(favoriteCards);
-    },1000);
-  })
-}
-
-
-export const fetchNewToOldCardsApi = () => {
+export const getAllFavoriteCards = () => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const allCards = JSON.parse(localStorage.getItem("cards"));
-      const compareDates = (a, b) =>
-        new Date(b.createdDate) - new Date(a.createdDate);
-
-      // Sort the dateList in descending order (newest to oldest)
-      const sortedDates = allCards.sort(compareDates);
-
-      resolve(sortedDates);
+      const favoriteCards = allCards.filter((card) => card.favorites);
+      resolve(favoriteCards);
     }, 1000);
   });
 };
 
+// export const fetchNewToOldCardsApi = () => {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       const allCards = JSON.parse(localStorage.getItem("cards"));
+//       const compareDates = (a, b) =>
+//         new Date(b.createdDate) - new Date(a.createdDate);
 
+//       // Sort the dateList in descending order (newest to oldest)
+//       const sortedDates = allCards.sort(compareDates);
 
-export const fetchOldToNewCardsApi =()=>{
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const allCards = JSON.parse(localStorage.getItem("cards"));
-      const compareDates = (a, b) =>
-        new Date(a.createdDate) - new Date(b.createdDate);
+//       resolve(sortedDates);
+//     }, 1000);
+//   });
+// };
 
-      // Sort the dateList in descending order (newest to oldest)
-      const sortedDates = allCards.sort(compareDates);
+// export const fetchOldToNewCardsApi = () => {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       const allCards = JSON.parse(localStorage.getItem("cards"));
+//       const compareDates = (a, b) =>
+//         new Date(a.createdDate) - new Date(b.createdDate);
 
-      resolve(sortedDates);
-    }, 1000);
-  });
-}
+//       // Sort the dateList in descending order (newest to oldest)
+//       const sortedDates = allCards.sort(compareDates);
+
+//       resolve(sortedDates);
+//     }, 1000);
+//   });
+// };
 
 export const registerUserApi = (user) => {
   return new Promise((resolve, reject) => {
-
     setTimeout(() => {
       const id = Math.random() * 100;
       const allUsers = JSON.parse(localStorage.getItem("users")) ?? [];
@@ -109,8 +121,8 @@ export const registerUserApi = (user) => {
       }
       const mappedValue = {
         ...user,
-        id
-      }
+        id,
+      };
       allUsers.push(mappedValue);
       localStorage.removeItem("users");
       localStorage.setItem("users", JSON.stringify(allUsers));

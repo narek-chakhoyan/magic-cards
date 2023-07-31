@@ -3,10 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import DashboardLayout from "components/layouts/DashboardLayout/DashboardLayout";
 import { FilterButtons } from "./FilterButtons/FilterButtons";
 
-import { getAllUsers, getAuthUser, getUsers } from "store/redux/slices/usersSlice";
+import {
+  getAllUsers,
+  getAuthUser,
+  getUsers,
+} from "store/redux/slices/usersSlice";
 import {
   getAllCards,
   getCards,
+  toToggleFavorite,
   // selectCardById,
 } from "store/redux/slices/cardsSlice";
 
@@ -27,15 +32,18 @@ export const Feed = () => {
     return users.find((user) => user.id === id);
   };
 
-  const getCreatedDate =(date)=>{
+  const getCreatedDate = (date) => {
     const dateObject = new Date(date);
 
     const year = dateObject.getFullYear();
     const month = String(dateObject.getMonth() + 1).padStart(2, "0");
     const day = String(dateObject.getDate()).padStart(2, "0");
-    
+
     return `${year}-${month}-${day}`;
-   
+  };
+
+  const toggleFavorite =(id)=>{
+dispatch(toToggleFavorite(id));
   }
 
   useEffect(() => {
@@ -54,14 +62,22 @@ export const Feed = () => {
               <div
                 style={{
                   backgroundColor:
-                    card.authorId === auth.id ? "green" : "white",
+                    card?.authorId === auth?.id ? "green" : "white",
                 }}
               >
-                <p>{card.title}</p>
-                <p>{card.description}</p>
-                <p>Author:{getAuthorName(card.authorId)?.name}</p>
+                <p>{card?.title}</p>
+                <p>{card?.description}</p>
+                <p>Author:{getAuthorName(card?.authorId)?.name}</p>
                 <p>{getCreatedDate(card?.createdDate)}</p>
-                {card.authorId === auth.id && <div>Edit</div>}
+                {card?.authorId === auth.id && <div>Edit</div>}
+                <div>
+                  <lable>Favorite</lable>
+                  <input
+                    onClick={() => toggleFavorite(card.id)}
+                    type="checkbox"
+                    checked={card?.favorites}
+                  />
+                </div>
               </div>
             );
           })}

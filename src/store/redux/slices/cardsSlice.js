@@ -8,6 +8,7 @@ import {
   fackeFetchApi,
   fetchNewToOldCardsApi,
   fetchOldToNewCardsApi,
+  fetchToggleFavorite,
   getAllFavoriteCards,
 } from "api/fackeFetchApi";
 
@@ -62,26 +63,49 @@ export const getAllCards = createAsyncThunk(
   }
 );
 
-export const getNewtoOldCards = createAsyncThunk(
-  "cards/getNewtoOldCards",
-  async (value) => {
-    const res = await fetchNewToOldCardsApi();
+export const toToggleFavorite = createAsyncThunk(
+  "cards/toToggleFavorite",
+  async(value)=>{
+    const res = await fetchToggleFavorite(value);
     return res;
   }
-);
+)
 
-export const getOldtoNewCards = createAsyncThunk(
-  "cards/getOldtoNewCards",
-  async (value) => {
-    const res = await fetchOldToNewCardsApi();
-    return res;
-  }
-);
+// export const getNewtoOldCards = createAsyncThunk(
+//   "cards/getNewtoOldCards",
+//   async (value) => {
+//     const res = await fetchNewToOldCardsApi();
+//     return res;
+//   }
+// );
+
+// export const getOldtoNewCards = createAsyncThunk(
+//   "cards/getOldtoNewCards",
+//   async (value) => {
+//     const res = await fetchOldToNewCardsApi();
+//     return res;
+//   }
+// );
 
 export const cardsSlice = createSlice({
   name: "cards",
   initialState,
-  reducers: {},
+  reducers: {
+    getNewtoOldCards: (state) => {
+      const allCards = state.cards;
+      const compareDates = (a, b) =>
+      new Date(b.createdDate) - new Date(a.createdDate);
+    const sortedDates = allCards.sort(compareDates);
+    state.cards = sortedDates;
+    },
+    getOldtoNewCards:(state) =>{
+      const allCards = state.cards;
+      const compareDates = (a, b) =>
+        new Date(a.createdDate) - new Date(b.createdDate);
+    const sortedDates = allCards.sort(compareDates);
+    state.cards = sortedDates;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAllCards.pending, (state) => {
@@ -116,29 +140,20 @@ export const cardsSlice = createSlice({
       .addCase(getFavoriteCards.rejected, (state, { payload }) => {
         state.loading = false;
       })
-      .addCase(getNewtoOldCards.pending, (state, { payload }) => {
+      .addCase(toToggleFavorite.pending,(state)=>{
         state.loading = true;
       })
-      .addCase(getNewtoOldCards.fulfilled, (state, { payload }) => {
-        console.log(payload, " getFavoriteCards payload");
+      .addCase(toToggleFavorite.fulfilled,(state,{payload})=>{
+        console.log(payload, "here pppp");
         state.loading = false;
         state.cards = payload;
       })
-      .addCase(getNewtoOldCards.rejected, (state, { payload }) => {
+      .addCase(toToggleFavorite.rejected,(state)=>{
         state.loading = false;
       })
-      .addCase(getOldtoNewCards.pending, (state, { payload }) => {
-        state.loading = true;
-      })
-      .addCase(getOldtoNewCards.fulfilled, (state, { payload }) => {
-        console.log(payload, " getFavoriteCards payload");
-        state.loading = false;
-        state.cards = payload;
-      })
-      .addCase(getOldtoNewCards.rejected, (state, { payload }) => {
-        state.loading = false;
-      });
   },
 });
+
+export const { getNewtoOldCards, getOldtoNewCards } = cardsSlice.actions;
 
 export default cardsSlice.reducer;
