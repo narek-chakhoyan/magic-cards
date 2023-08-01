@@ -77,6 +77,26 @@ export const getAllFavoriteCards = () => {
   });
 };
 
+export const updateCardById = (currentCard) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const allCards = JSON.parse(localStorage.getItem("cards"));
+      const updatedCards = allCards.map((card) => {
+        if (currentCard.id === card.id) {
+          return {
+            ...card,
+            ...currentCard,
+          };
+        }
+        return card;
+      });
+      localStorage.removeItem("cards");
+      localStorage.setItem("cards", JSON.stringify(updatedCards));
+      resolve(updatedCards);
+    }, [1000]);
+  });
+};
+
 // export const fetchNewToOldCardsApi = () => {
 //   return new Promise((resolve, reject) => {
 //     setTimeout(() => {

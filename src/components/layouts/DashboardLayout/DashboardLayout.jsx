@@ -3,20 +3,18 @@ import styles from "./style.module.css";
 import { getAuthUser, getUsers } from "store/redux/slices/usersSlice";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { FilterButtons } from "components/features/pages/Feed/FilterButtons/FilterButtons";
 
 const DashboardLayout = ({ children }) => {
   const [allUsers, setAllUsers] = useState([]);
   const users = useSelector(getUsers);
   const auth = useSelector(getAuthUser);
-
-  console.log(users, "get All Users");
   
   useEffect(()=>{
     const filteredUsers = users.filter((user)=>user.email !== auth.email);
     setAllUsers(filteredUsers);
   },[users]);
 
-console.log(allUsers,"allUsers");
   return (
     <div className={styles.dashboardContainer}>
       <div className={styles.usersList}>
@@ -29,7 +27,10 @@ console.log(allUsers,"allUsers");
           );
         })}
       </div>
-      <div className={styles.mainContainer}>{children}</div>
+      <div>
+        <FilterButtons />
+        <div className={styles.mainContainer}>{children}</div>
+      </div>
     </div>
   );
 };

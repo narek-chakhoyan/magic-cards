@@ -10,6 +10,7 @@ import {
   fetchOldToNewCardsApi,
   fetchToggleFavorite,
   getAllFavoriteCards,
+  updateCardById,
 } from "api/fackeFetchApi";
 
 export const getCards = (state) => state.cards.cards;
@@ -55,6 +56,15 @@ export const getFavoriteCards = createAsyncThunk(
   }
 );
 
+export const updateCurrentCard = createAsyncThunk(
+  "card/updateCurrentCard",
+  async (value) => {
+    const res = await updateCardById(value);
+    console.log(res, "here res");
+    return res;
+  }
+);
+
 export const getAllCards = createAsyncThunk(
   "cards/getAllCards",
   async (value) => {
@@ -65,11 +75,11 @@ export const getAllCards = createAsyncThunk(
 
 export const toToggleFavorite = createAsyncThunk(
   "cards/toToggleFavorite",
-  async(value)=>{
+  async (value) => {
     const res = await fetchToggleFavorite(value);
     return res;
   }
-)
+);
 
 // export const getNewtoOldCards = createAsyncThunk(
 //   "cards/getNewtoOldCards",
@@ -94,17 +104,17 @@ export const cardsSlice = createSlice({
     getNewtoOldCards: (state) => {
       const allCards = state.cards;
       const compareDates = (a, b) =>
-      new Date(b.createdDate) - new Date(a.createdDate);
-    const sortedDates = allCards.sort(compareDates);
-    state.cards = sortedDates;
+        new Date(b.createdDate) - new Date(a.createdDate);
+      const sortedDates = allCards.sort(compareDates);
+      state.cards = sortedDates;
     },
-    getOldtoNewCards:(state) =>{
+    getOldtoNewCards: (state) => {
       const allCards = state.cards;
       const compareDates = (a, b) =>
         new Date(a.createdDate) - new Date(b.createdDate);
-    const sortedDates = allCards.sort(compareDates);
-    state.cards = sortedDates;
-    }
+      const sortedDates = allCards.sort(compareDates);
+      state.cards = sortedDates;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -140,17 +150,27 @@ export const cardsSlice = createSlice({
       .addCase(getFavoriteCards.rejected, (state, { payload }) => {
         state.loading = false;
       })
-      .addCase(toToggleFavorite.pending,(state)=>{
+      .addCase(toToggleFavorite.pending, (state) => {
         state.loading = true;
       })
-      .addCase(toToggleFavorite.fulfilled,(state,{payload})=>{
+      .addCase(toToggleFavorite.fulfilled, (state, { payload }) => {
         console.log(payload, "here pppp");
         state.loading = false;
         state.cards = payload;
       })
-      .addCase(toToggleFavorite.rejected,(state)=>{
+      .addCase(toToggleFavorite.rejected, (state) => {
         state.loading = false;
       })
+      .addCase(updateCurrentCard.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateCurrentCard.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.cards = payload;
+      })
+      .addCase(updateCurrentCard.rejected, (state) => {
+        state.loading = false;
+      });
   },
 });
 

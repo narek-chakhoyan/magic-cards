@@ -1,7 +1,11 @@
+import DashboardLayout from "components/layouts/DashboardLayout/DashboardLayout"
+
 export const Profile =()=>{
     return (
         <div>
-            Profile
+           <DashboardLayout>
+            
+           </DashboardLayout>
         </div>
     )
 }
