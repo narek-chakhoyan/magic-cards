@@ -23,7 +23,7 @@ function App() {
           <Route element={<RequireAuth auth={auth} />}>
             <Route path="/" element={<Feed />} />
             <Route path="profile" element={<Profile />} />
-            <Route path="/:id" element={<UserPage />} />
+            <Route path="/profile/:id" element={<UserPage />} />
           </Route>
 
           <Route path="*" element={<Missing />} />

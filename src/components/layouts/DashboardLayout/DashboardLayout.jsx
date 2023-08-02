@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FilterButtons } from "components/features/pages/Feed/FilterButtons/FilterButtons";
 
-const DashboardLayout = ({ children, adminPage }) => {
+const DashboardLayout = ({ children, userPage }) => {
   const [allUsers, setAllUsers] = useState([]);
   const users = useSelector(getUsers);
   const auth = useSelector(getAuthUser);
@@ -22,13 +22,13 @@ const DashboardLayout = ({ children, adminPage }) => {
         {allUsers?.map((user) => {
           return (
             <h2>
-              <NavLink to={`${user.id}`}>{user.name}</NavLink>
+              <NavLink to={`/profile/${user.id}`}>{user.name}</NavLink>
             </h2>
           );
         })}
       </div>
       <div>
-        <FilterButtons adminPage={adminPage}/>
+        <FilterButtons userPage={userPage} />
         <div className={styles.mainContainer}>{children}</div>
       </div>
     </div>

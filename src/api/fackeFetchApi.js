@@ -33,14 +33,18 @@ export const fetchToggleFavorite = (id) => {
   });
 };
 
-export const fetchAdminAllCards = (id) => {
+export const fetchUserAllCardsById = (id) => {
+  console.log(id,"kkkk");
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const allCards = JSON.parse(localStorage.getItem("cards"));
-      const adminCards = allCards.filter((card) => {
-        return card.authorId === id;
+      const userCards = allCards.filter((card) => {
+        if (+card.authorId === +id) {
+          return card;
+        }
       });
-      resolve(adminCards);
+      console.log(userCards,"userCards")
+      resolve(userCards);
     }, 1000);
   });
 };
@@ -66,7 +70,7 @@ export const createCardApi = (data) => {
       const cards = JSON.parse(localStorage.getItem("cards"));
       const mappedValues = {
         ...data,
-        favorites: false,
+        favorites: true,
         id,
         createdDate,
       };
@@ -88,6 +92,20 @@ export const getAllFavoriteCards = () => {
     }, 1000);
   });
 };
+
+export const getAllFavoriteCardsById =(userId)=>{
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const allCards = JSON.parse(localStorage.getItem("cards"));
+      const favoriteCards = allCards.filter((card) => {
+        if(userId === card.authorId && card.favorites){
+          return card;
+        }
+      });
+      resolve(favoriteCards);
+    }, 1000);
+  });
+}
 
 export const updateCardById = (values) => {
   console.log(values,"ddddd")
@@ -116,36 +134,6 @@ export const updateCardById = (values) => {
     }, [1000]);
   });
 };
-
-// export const fetchNewToOldCardsApi = () => {
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       const allCards = JSON.parse(localStorage.getItem("cards"));
-//       const compareDates = (a, b) =>
-//         new Date(b.createdDate) - new Date(a.createdDate);
-
-//       // Sort the dateList in descending order (newest to oldest)
-//       const sortedDates = allCards.sort(compareDates);
-
-//       resolve(sortedDates);
-//     }, 1000);
-//   });
-// };
-
-// export const fetchOldToNewCardsApi = () => {
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       const allCards = JSON.parse(localStorage.getItem("cards"));
-//       const compareDates = (a, b) =>
-//         new Date(a.createdDate) - new Date(b.createdDate);
-
-//       // Sort the dateList in descending order (newest to oldest)
-//       const sortedDates = allCards.sort(compareDates);
-
-//       resolve(sortedDates);
-//     }, 1000);
-//   });
-// };
 
 export const registerUserApi = (user) => {
   return new Promise((resolve, reject) => {

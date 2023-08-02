@@ -8,7 +8,9 @@ import {
   fackeFetchApi,
   fetchAdminAllCards,
   fetchToggleFavorite,
+  fetchUserAllCardsById,
   getAllFavoriteCards,
+  getAllFavoriteCardsById,
   updateCardById,
 } from "api/fackeFetchApi";
 import thunk from "redux-thunk";
@@ -55,6 +57,13 @@ export const getFavoriteCards = createAsyncThunk(
     return res;
   }
 );
+export const getFavoritesById = createAsyncThunk(
+  "cards.getFavoritesById",
+  async (id) =>{
+    const res = await getAllFavoriteCardsById(id);
+    return res;
+  }
+)
 
 export const updateCurrentCard = createAsyncThunk(
   "card/updateCurrentCard",
@@ -85,13 +94,13 @@ export const toToggleFavorite = createAsyncThunk(
   }
 );
 
-export const getAdminCards = createAsyncThunk(
-  "cards/getAllAdminCards",
-  async (value, thunkAPI) => {
-    const state = thunkAPI.getState();
-
-    const authorId = state.users.auth.id;
-    const res = await fetchAdminAllCards(authorId);
+export const getUserCardsById = createAsyncThunk(
+  "cards/getUserCardsById",
+  async (id, thunkAPI) => {
+    
+    console.log(id, "thunk");
+    // const userId = value.userId ? value.userId : state.users.auth.id;
+    const res = await fetchUserAllCardsById(id);
     return res;
   }
 );
@@ -170,14 +179,14 @@ export const cardsSlice = createSlice({
       .addCase(updateCurrentCard.rejected, (state) => {
         state.loading = false;
       })
-      .addCase(getAdminCards.pending, (state) => {
+      .addCase(getUserCardsById.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getAdminCards.fulfilled, (state, { payload }) => {
+      .addCase(getUserCardsById.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.cards = payload;
       })
-      .addCase(getAdminCards.rejected, (state) => {
+      .addCase(getUserCardsById.rejected, (state) => {
         state.loading = false;
       });
   },
