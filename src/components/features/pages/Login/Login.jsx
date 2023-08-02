@@ -41,8 +41,8 @@ export const Login = () => {
   }, [auth]);
 
   return (
-    <div>
-      <div>
+    <div className={styles.loginContainer}>
+      <div className = {styles.loginTitle}>
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore aut
         voluptatum ab et. Iste amet totam non maiores quas ex explicabo nobis!
         Aspernatur architecto nam distinctio nostrum, quae ipsum totam?

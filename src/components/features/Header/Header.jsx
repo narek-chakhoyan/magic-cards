@@ -1,11 +1,16 @@
-import { NavLink } from "react-router-dom";
-import styles from "./header.module.css";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { NavLink, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { CardModal } from "components/common/CardModal/CardModal";
 import { createNewCard } from "store/redux/slices/cardsSlice";
 
+import styles from "./header.module.css";
+import { getAuthUser } from "store/redux/slices/usersSlice";
+
 export const Header = () => {
+  const auth = useSelector(getAuthUser);
+  const location = useLocation();
+  const { pathname } = location;
   const [cardValues, setCardValues] = useState({
     title: "",
     description: "",
@@ -13,22 +18,21 @@ export const Header = () => {
   const [openModal, setOpenModal] = useState(false);
 
   const dispatch = useDispatch();
-  
+
   const openCreateCardModal = () => {
     setOpenModal((prev) => !prev);
   };
 
-  const handleChange =(e)=>{
+  const handleChange = (e) => {
     setCardValues({
       ...cardValues,
       [e.target.name]: e.target.value,
     });
-  }
+  };
 
-  const createCard =()=>{
-    dispatch(createNewCard( cardValues ));
-  }
-
+  const createCard = () => {
+    dispatch(createNewCard(cardValues));
+  };
 
   return (
     <header>
@@ -36,10 +40,20 @@ export const Header = () => {
         <div className={styles.logo}>
           <NavLink to="/">MegicCards</NavLink>
         </div>
+        <div className={styles.iterationButtons}>
+          {auth ? (
+            <div className={styles.profileButtons}>
+              <div>
+                <NavLink to="/profile">Profile</NavLink>
+              </div>
 
-        <div>
-          <NavLink to="/profile">Profile</NavLink>
-          <div onClick={openCreateCardModal}>Create Card</div>
+              <div onClick={openCreateCardModal}>Create Card</div>
+            </div>
+          ) : pathname === "/login" ? (
+            <NavLink to="/signup">Signup</NavLink>
+          ) : (
+            <NavLink to="/login">Login</NavLink>
+          )}
         </div>
       </nav>
       <CardModal open={openModal} toggle={openCreateCardModal}>

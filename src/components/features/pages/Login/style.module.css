@@ -1,4 +1,22 @@
-.formContainer button{
-    border: 1px solid red;
-    /* pointer-events: none; */
+.loginContainer {
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.loginTitle {
+    width: 400px;
+}
+
+.formContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:300px;
+    height:300px;
+    border-radius: 29px;
+    background: #e0e0e0;
+    box-shadow:  6px 6px 12px #989898,
+                 -6px -6px 12px #ffffff;
 }

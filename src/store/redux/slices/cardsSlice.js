@@ -59,11 +59,13 @@ export const getFavoriteCards = createAsyncThunk(
 );
 export const getFavoritesById = createAsyncThunk(
   "cards.getFavoritesById",
-  async (id) =>{
+  async (id) => {
+    console.log(id, "here by id");
     const res = await getAllFavoriteCardsById(id);
+
     return res;
   }
-)
+);
 
 export const updateCurrentCard = createAsyncThunk(
   "card/updateCurrentCard",
@@ -97,7 +99,6 @@ export const toToggleFavorite = createAsyncThunk(
 export const getUserCardsById = createAsyncThunk(
   "cards/getUserCardsById",
   async (id, thunkAPI) => {
-    
     console.log(id, "thunk");
     // const userId = value.userId ? value.userId : state.users.auth.id;
     const res = await fetchUserAllCardsById(id);
@@ -187,6 +188,16 @@ export const cardsSlice = createSlice({
         state.cards = payload;
       })
       .addCase(getUserCardsById.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(getFavoritesById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getFavoritesById.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.cards = payload;
+      })
+      .addCase(getFavoritesById.rejected, (state) => {
         state.loading = false;
       });
   },

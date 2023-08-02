@@ -70,7 +70,7 @@ export const createCardApi = (data) => {
       const cards = JSON.parse(localStorage.getItem("cards"));
       const mappedValues = {
         ...data,
-        favorites: true,
+        favorites: false,
         id,
         createdDate,
       };
@@ -98,10 +98,11 @@ export const getAllFavoriteCardsById =(userId)=>{
     setTimeout(() => {
       const allCards = JSON.parse(localStorage.getItem("cards"));
       const favoriteCards = allCards.filter((card) => {
-        if(userId === card.authorId && card.favorites){
+        if(+userId === +card.authorId && card.favorites){
           return card;
         }
       });
+      console.log(favoriteCards, "favoriteCards");
       resolve(favoriteCards);
     }, 1000);
   });
