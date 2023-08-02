@@ -6,12 +6,12 @@ import {
 import {
   createCardApi,
   fackeFetchApi,
-  fetchNewToOldCardsApi,
-  fetchOldToNewCardsApi,
+  fetchAdminAllCards,
   fetchToggleFavorite,
   getAllFavoriteCards,
   updateCardById,
 } from "api/fackeFetchApi";
+import thunk from "redux-thunk";
 
 export const getCards = (state) => state.cards.cards;
 
@@ -58,8 +58,12 @@ export const getFavoriteCards = createAsyncThunk(
 
 export const updateCurrentCard = createAsyncThunk(
   "card/updateCurrentCard",
-  async (value) => {
-    const res = await updateCardById(value);
+  async (value, thunkAPI) => {
+    const state = thunkAPI.getState();
+    console.log(state, "f");
+
+    const authorId = state.users.auth.id;
+    const res = await updateCardById({ ...value, id: authorId });
     console.log(res, "here res");
     return res;
   }
@@ -81,21 +85,16 @@ export const toToggleFavorite = createAsyncThunk(
   }
 );
 
-// export const getNewtoOldCards = createAsyncThunk(
-//   "cards/getNewtoOldCards",
-//   async (value) => {
-//     const res = await fetchNewToOldCardsApi();
-//     return res;
-//   }
-// );
+export const getAdminCards = createAsyncThunk(
+  "cards/getAllAdminCards",
+  async (value, thunkAPI) => {
+    const state = thunkAPI.getState();
 
-// export const getOldtoNewCards = createAsyncThunk(
-//   "cards/getOldtoNewCards",
-//   async (value) => {
-//     const res = await fetchOldToNewCardsApi();
-//     return res;
-//   }
-// );
+    const authorId = state.users.auth.id;
+    const res = await fetchAdminAllCards(authorId);
+    return res;
+  }
+);
 
 export const cardsSlice = createSlice({
   name: "cards",
@@ -169,6 +168,16 @@ export const cardsSlice = createSlice({
         state.cards = payload;
       })
       .addCase(updateCurrentCard.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(getAdminCards.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAdminCards.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.cards = payload;
+      })
+      .addCase(getAdminCards.rejected, (state) => {
         state.loading = false;
       });
   },

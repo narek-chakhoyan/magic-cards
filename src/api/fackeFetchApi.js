@@ -33,6 +33,18 @@ export const fetchToggleFavorite = (id) => {
   });
 };
 
+export const fetchAdminAllCards = (id) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const allCards = JSON.parse(localStorage.getItem("cards"));
+      const adminCards = allCards.filter((card) => {
+        return card.authorId === id;
+      });
+      resolve(adminCards);
+    }, 1000);
+  });
+};
+
 export const loginUserApi = (loginUser) => {
   return new Promise((resolve, reject) => {
     const data = JSON.parse(localStorage.getItem("users"));
@@ -77,21 +89,29 @@ export const getAllFavoriteCards = () => {
   });
 };
 
-export const updateCardById = (currentCard) => {
+export const updateCardById = (values) => {
+  console.log(values,"ddddd")
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const allCards = JSON.parse(localStorage.getItem("cards"));
       const updatedCards = allCards.map((card) => {
-        if (currentCard.id === card.id) {
+        if (values.editCard.id === card.id) {
           return {
             ...card,
-            ...currentCard,
+            ...values.editCard,
           };
         }
         return card;
       });
       localStorage.removeItem("cards");
       localStorage.setItem("cards", JSON.stringify(updatedCards));
+      if (values.adminPage) {
+        const adminCards = updatedCards.filter((card) => {
+          return card.authorId === values.id;
+        });
+        resolve(adminCards);
+        return;
+      }
       resolve(updatedCards);
     }, [1000]);
   });

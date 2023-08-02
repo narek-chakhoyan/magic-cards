@@ -5,15 +5,15 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FilterButtons } from "components/features/pages/Feed/FilterButtons/FilterButtons";
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = ({ children, adminPage }) => {
   const [allUsers, setAllUsers] = useState([]);
   const users = useSelector(getUsers);
   const auth = useSelector(getAuthUser);
-  
-  useEffect(()=>{
-    const filteredUsers = users.filter((user)=>user.email !== auth.email);
+
+  useEffect(() => {
+    const filteredUsers = users.filter((user) => user.email !== auth.email);
     setAllUsers(filteredUsers);
-  },[users]);
+  }, [users]);
 
   return (
     <div className={styles.dashboardContainer}>
@@ -28,7 +28,7 @@ const DashboardLayout = ({ children }) => {
         })}
       </div>
       <div>
-        <FilterButtons />
+        <FilterButtons adminPage={adminPage}/>
         <div className={styles.mainContainer}>{children}</div>
       </div>
     </div>
