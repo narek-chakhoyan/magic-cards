@@ -1,4 +1,10 @@
-.formInput {}
+.formInput input{
+    margin-top: 2px;
+    padding:5px 10px;
+    border-radius: 5px;
+    outline: none;
+    border:none;
+}
 
 span {
     display: none;

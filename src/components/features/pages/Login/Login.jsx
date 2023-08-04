@@ -42,23 +42,32 @@ export const Login = () => {
 
   return (
     <div className={styles.loginContainer}>
-      <div className = {styles.loginTitle}>
+      <div className={styles.loginTitle}>
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore aut
         voluptatum ab et. Iste amet totam non maiores quas ex explicabo nobis!
         Aspernatur architecto nam distinctio nostrum, quae ipsum totam?
       </div>
       <div className={styles.formContainer}>
-        <form onSubmit={handleSubmit}>
-          {loginInputs.map((input) => (
-            <FormInput
-              {...input}
-              key={input.id}
-              value={values[input.name]}
-              handleChange={handleChange}
-            />
-          ))}
-          <button>Submit</button>
-        </form>
+        <div>
+          <h2>Log in</h2>
+          <form onSubmit={handleSubmit}>
+            {loginInputs.map((input) => (
+              <FormInput
+                {...input}
+                key={input.id}
+                value={values[input.name]}
+                handleChange={handleChange}
+              />
+            ))}
+            <div className={styles.rememberBtn}>
+              <label for ="rememberme">Remember Me</label>
+              <input id ="rememberme"type="checkbox" />
+            </div>
+            <div className={styles.loginBtn}>
+              <button>Login</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

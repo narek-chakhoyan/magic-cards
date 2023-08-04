@@ -13,10 +13,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width:300px;
+    width:400px;
     height:300px;
     border-radius: 29px;
     background: #e0e0e0;
     box-shadow:  6px 6px 12px #989898,
                  -6px -6px 12px #ffffff;
+}
+.rememberBtn, .loginBtn{
+    margin-top: 10px;
+}
+.loginBtn button{
+    border:none;
+    padding:8px 15px;
+    border-radius: 10px;
 }
