@@ -1,11 +1,20 @@
-.dashboardContainer{
-    /* background-color: green; */
+.dashboardContainer {
+    border-top: 1px solid black;
     display: flex;
     justify-content: center;
 }
-.usersList{
-    background-color: red;
+
+.usersList {
+    min-width: 100px;
+    background-color: antiquewhite;
+    padding: 5px;
+    border-right: 1px solid black;
 }
-.mainContainer{
-    background-color: yellow;
+
+.mainContainer {
+    background-color: rgb(238, 238, 238);
+}
+
+.filterButtons {
+    background-color: aliceblue;
 }

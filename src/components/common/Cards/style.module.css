@@ -1,0 +1,32 @@
+.cardSection1{
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.cardTitleContainer{
+ box-sizing: border-box;
+    padding:5px;
+    max-width: 500px;
+}
+.cardSection1 input, textarea{
+    outline: none;
+    border:none;
+    margin:3px;
+    padding:5px;
+    border-radius: 20px;
+}
+.actionButtons button{
+    cursor: pointer;
+    border:1px solid rgb(155, 148, 148);
+    padding:8px 15px;
+    border-radius: 10px;
+    margin: 3px;
+}
+.sectionButtons{
+    font-style: italic;
+    border-bottom: 1px solid black;
+    display: flex;
+    padding:10px;
+    align-items: center;
+    justify-content: space-around;
+}

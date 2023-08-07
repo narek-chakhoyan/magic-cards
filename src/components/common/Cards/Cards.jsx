@@ -1,12 +1,15 @@
-import { useCallback ,useState} from "react";
+import { useCallback, useState } from "react";
 
 import { getAuthUser, getUsers } from "store/redux/slices/usersSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 import styles from "./style.module.css";
-import { toToggleFavorite, updateCurrentCard } from "store/redux/slices/cardsSlice";
+import {
+  toToggleFavorite,
+  updateCurrentCard,
+} from "store/redux/slices/cardsSlice";
 
-export const Cards = ({ allCards,adminPage }) => {
+export const Cards = ({ allCards, adminPage }) => {
   const [editCard, setEditCard] = useState(null);
   const auth = useSelector(getAuthUser);
   const users = useSelector(getUsers);
@@ -24,7 +27,7 @@ export const Cards = ({ allCards,adminPage }) => {
   };
 
   const handleUpdateCard = () => {
-    dispatch(updateCurrentCard({editCard,adminPage}));
+    dispatch(updateCurrentCard({ editCard, adminPage }));
     setEditCard(null);
   };
 
@@ -35,15 +38,19 @@ export const Cards = ({ allCards,adminPage }) => {
     setEditCard(card);
   };
 
-  const getCreatedDate = (date) => {
-    const dateObject = new Date(date);
+//   const getCreatedDate = (date) => {
+//     const dateObject = new Date(date);
 
-    const year = dateObject.getFullYear();
-    const month = String(dateObject.getMonth() + 1).padStart(2, "0");
-    const day = String(dateObject.getDate()).padStart(2, "0");
+//     const year = dateObject.getFullYear();
+//     const month = String(dateObject.getMonth() + 1).padStart(2, "0");
+//     const day = String(dateObject.getDate()).padStart(2, "0");
 
-    return `${year}-${month}-${day}`;
-  };
+//     const hours = String(dateObject.getHours()).padStart(2, "0");
+// const minutes = String(dateObject.getMinutes()).padStart(2, "0");
+// const seconds = String(dateObject.getSeconds()).padStart(2, "0");
+
+//     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+//   };
 
   const getCardTitleDescription = useCallback(
     (card) => {
@@ -58,7 +65,7 @@ export const Cards = ({ allCards,adminPage }) => {
           <input name="title" onChange={handleChange} value={editCard.title} />
         );
       } else {
-        component.title = <p>{card?.title}</p>;
+        component.title = <h3>{card?.title}</h3>;
       }
 
       if (editCard?.description && editCard?.id === card.id) {
@@ -75,14 +82,14 @@ export const Cards = ({ allCards,adminPage }) => {
       if (card?.authorId === auth.id) {
         if (editCard && editCard?.id === card.id) {
           component.buttons = (
-            <div>
+            <div className={styles.actionButtons}>
               <button onClick={handleUpdateCard}>Save</button>
               <button onClick={() => setEditCard({})}>Cancel</button>
             </div>
           );
         } else {
           component.buttons = (
-            <div>
+            <div className={styles.actionButtons}>
               <button onClick={() => handleEditCard(card)}>Edit</button>
             </div>
           );
@@ -90,9 +97,11 @@ export const Cards = ({ allCards,adminPage }) => {
       }
       return (
         <>
-          {component.title}
-          {component.description}
-          {component.buttons}
+          <div className={styles.cardTitleContainer}>
+            <div>{component.title}</div>
+            <div>{component.description}</div>
+          </div>
+          <div>{component.buttons}</div>
         </>
       );
     },
@@ -100,27 +109,35 @@ export const Cards = ({ allCards,adminPage }) => {
   );
   return (
     <div className={styles.cardContainer}>
-      {allCards?.map((card) => {
-        return (
-          <div
-            style={{
-              backgroundColor: card?.authorId === auth?.id ? "green" : "white",
-            }}
-          >
-            {getCardTitleDescription(card)}
-            <p>Author:{getAuthorName(card?.authorId)?.name}</p>
-            <p>{getCreatedDate(card?.createdDate)}</p>
-            <div>
-              <lable>Favorite</lable>
-              <input
-                onClick={() => toggleFavorite(card.id)}
-                type="checkbox"
-                checked={card?.favorites}
-              />
-            </div>
-          </div>
-        );
-      })}
+      {allCards.length
+        ? allCards?.map((card) => {
+            return (
+              <div
+                key={card.id}
+                style={{
+                  backgroundColor:
+                    card?.authorId === auth?.id ? "antiquewhite" : "white",
+                }}
+              >
+                <div className={styles.cardSection1}>
+                  <div>{getCardTitleDescription(card)}</div>
+                  <p>{card?.createdDate}</p>
+                </div>
+                <div className={styles.sectionButtons}>
+                  <p>Author: {getAuthorName(card?.authorId)?.name}</p>
+                  <div>
+                    <label>Favorite</label>
+                    <input
+                      onChange={() => toggleFavorite(card.id)}
+                      type="checkbox"
+                      checked={card?.favorites}
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        : "There are no cards in the system"}
     </div>
   );
 };
