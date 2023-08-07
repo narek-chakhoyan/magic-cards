@@ -7,3 +7,11 @@
 .buttonGroup{
     display: flex;
 }
+.buttonGroup div{
+    cursor: pointer;
+    margin:2px;
+    border-bottom:1px solid gray;
+}
+.buttonGroup div:hover{
+    background-color: beige;
+}

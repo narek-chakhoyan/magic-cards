@@ -16,6 +16,7 @@ import {
 import thunk from "redux-thunk";
 
 export const getCards = (state) => state.cards.cards;
+export const loadingCards = (state) =>state.cards.loading;
 
 // export const selectCardById = createSelector(
 //   [getCards, (state, id) => id],

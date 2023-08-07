@@ -4,11 +4,13 @@ import { getAuthUser, getUsers } from "store/redux/slices/usersSlice";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FilterButtons } from "components/features/pages/Feed/FilterButtons/FilterButtons";
+import { loadingCards } from "store/redux/slices/cardsSlice";
 
 const DashboardLayout = ({ children, userPage }) => {
   const [allUsers, setAllUsers] = useState([]);
   const users = useSelector(getUsers);
   const auth = useSelector(getAuthUser);
+  const cardsLoading = useSelector(loadingCards);
 
   useEffect(() => {
     const filteredUsers = users.filter((user) => user.email !== auth.email);
@@ -18,18 +20,22 @@ const DashboardLayout = ({ children, userPage }) => {
   return (
     <div className={styles.dashboardContainer}>
       <div className={styles.usersList}>
-        <h3>Users all</h3>
-        {allUsers?.map((user) => {
-          return (
-            <h2>
-              <NavLink to={`/profile/${user.id}`}>{user.name}</NavLink>
-            </h2>
-          );
-        })}
+        {allUsers.length
+          ? allUsers?.map((user) => {
+              return (
+                <h2 key={user.id}>
+                  <NavLink to={`/profile/${user.id}`}>{user.name}</NavLink>
+                </h2>
+              );
+            })
+          : "There are no users in the system"}
       </div>
-      <div>
+      <div className={styles.filterButtons}>
         <FilterButtons userPage={userPage} />
-        <div className={styles.mainContainer}>{children}</div>
+
+        <div className={styles.mainContainer}>
+          {cardsLoading ? "Loading(...)" : <div>{children}</div>}
+        </div>
       </div>
     </div>
   );

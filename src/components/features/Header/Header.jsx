@@ -15,6 +15,7 @@ export const Header = () => {
     title: "",
     description: "",
   });
+  const [cardValidation, setCardValidation] = useState(true);
   const [openModal, setOpenModal] = useState(false);
 
   const dispatch = useDispatch();
@@ -24,13 +25,21 @@ export const Header = () => {
   };
 
   const handleChange = (e) => {
+    validateCardInputs();
     setCardValues({
       ...cardValues,
       [e.target.name]: e.target.value,
     });
   };
 
+  const validateCardInputs = () => {
+    setCardValidation(
+      !cardValues.title.length || !cardValues.description.length
+    );
+  };
+
   const createCard = () => {
+    setOpenModal(false);
     dispatch(createNewCard(cardValues));
   };
 
@@ -57,23 +66,31 @@ export const Header = () => {
         </div>
       </nav>
       <CardModal open={openModal} toggle={openCreateCardModal}>
-        <div>
-          <input
-            name="title"
-            onChange={handleChange}
-            placeholder="Title"
-            type="text"
-          />
+        <div className={styles.createCardContainer}>
+          <div>
+            <div>
+              <input
+                name="title"
+                onChange={handleChange}
+                placeholder="Title"
+                type="text"
+              />
+            </div>
+            <div>
+              <textarea
+                name="description"
+                onChange={handleChange}
+                placeholder="Description"
+              ></textarea>
+            </div>
+          </div>
         </div>
-        <div>
-          <textarea
-            name="description"
-            onChange={handleChange}
-            placeholder="Description"
-          ></textarea>
+        <div className={styles.cardActionsBtn}>
+          <button onClick={openCreateCardModal}>Cancel</button>
+          <button onClick={createCard} disabled={cardValidation}>
+            Create
+          </button>
         </div>
-        <button>Cancel</button>
-        <button onClick={createCard}>Create</button>
       </CardModal>
     </header>
   );

@@ -28,3 +28,30 @@
     text-decoration: underline;
     margin: 5px;
 }
+.createCardContainer{
+    display: flex;
+    align-items:center ;
+    height: 350px;
+    width: 350px;
+    padding: 10px;
+}
+.createCardContainer input, textarea{
+    width: 300px;
+    margin:5px;
+    padding:10px;
+    outline: none;
+    border-radius: 20px;
+    border: none;
+}
+.cardActionsBtn{
+    padding:2px;
+    display: flex;
+    justify-content: end;
+}
+.cardActionsBtn button{
+    cursor: pointer;
+    border:none;
+    padding:8px 15px;
+    border-radius: 10px;
+    margin: 3px;
+}

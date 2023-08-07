@@ -1,16 +1,21 @@
-import { getUserCardsById, getAllCards, getFavoriteCards, getNewtoOldCards, getOldtoNewCards, getFavoritesById } from "store/redux/slices/cardsSlice";
+import {
+  getUserCardsById,
+  getAllCards,
+  getFavoriteCards,
+  getNewtoOldCards,
+  getOldtoNewCards,
+  getFavoritesById,
+} from "store/redux/slices/cardsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import styles from "./style.module.css";
 import { getAuthUser } from "store/redux/slices/usersSlice";
 
-export const FilterButtons = ({userPage}) => {
+import styles from "./style.module.css";
+
+export const FilterButtons = ({ userPage }) => {
   const { id } = useParams();
   const auth = useSelector(getAuthUser);
   const dispatch = useDispatch();
-
-  console.log(id,"here id");
-  console.log(auth,"auth id");
   return (
     <div className={styles.filterButtons}>
       <div className={styles.buttonGroup}>

@@ -64,15 +64,29 @@ export const loginUserApi = (loginUser) => {
 export const createCardApi = (data) => {
   return new Promise((resolve, reject) => {
     const id = Math.random() * 100;
-    // debugger
     const createdDate = new Date();
+
+    const getCreatedDate = (date) => {
+      const dateObject = new Date(date);
+  
+      const year = dateObject.getFullYear();
+      const month = String(dateObject.getMonth() + 1).padStart(2, "0");
+      const day = String(dateObject.getDate()).padStart(2, "0");
+  
+      const hours = String(dateObject.getHours()).padStart(2, "0");
+  const minutes = String(dateObject.getMinutes()).padStart(2, "0");
+  const seconds = String(dateObject.getSeconds()).padStart(2, "0");
+  
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    };
+
     setTimeout(() => {
       const cards = JSON.parse(localStorage.getItem("cards"));
       const mappedValues = {
         ...data,
         favorites: false,
         id,
-        createdDate,
+        createdDate: getCreatedDate(createdDate),
       };
       console.log(mappedValues, "mappedValues");
       localStorage.removeItem("cards");
