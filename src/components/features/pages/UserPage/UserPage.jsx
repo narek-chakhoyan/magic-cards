@@ -9,11 +9,9 @@ export const UserPage = () => {
     const allCards = useSelector(getCards);
     const { id } = useParams();
     const dispatch = useDispatch();
-    console.log(id, "userId");
     useEffect(() => {
       dispatch(getUserCardsById(id));
     }, [id]);
-    console.log(allCards,"allCards useee");
   return (
     
     <div>

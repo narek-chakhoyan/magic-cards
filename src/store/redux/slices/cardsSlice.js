@@ -37,11 +37,9 @@ export const createNewCard = createAsyncThunk(
   "cards/createCard",
   async (value, thunkAPI) => {
     const state = thunkAPI.getState();
-    console.log(state, "f");
 
     const authorId = state.users.auth.id;
     const res = await createCardApi({ ...value, authorId });
-    console.log(res, "here res");
     return res;
   }
 );
@@ -50,18 +48,15 @@ export const getFavoriteCards = createAsyncThunk(
   "cards/getFavoriteCards",
   async (value, thunkAPI) => {
     const state = thunkAPI.getState();
-    console.log(state, "f");
 
     const authorId = state.users.auth.id;
     const res = await getAllFavoriteCards({ ...value, authorId });
-    console.log(res, "here res");
     return res;
   }
 );
 export const getFavoritesById = createAsyncThunk(
   "cards.getFavoritesById",
   async (id) => {
-    console.log(id, "here by id");
     const res = await getAllFavoriteCardsById(id);
 
     return res;
@@ -72,11 +67,9 @@ export const updateCurrentCard = createAsyncThunk(
   "card/updateCurrentCard",
   async (value, thunkAPI) => {
     const state = thunkAPI.getState();
-    console.log(state, "f");
 
     const authorId = state.users.auth.id;
     const res = await updateCardById({ ...value, id: authorId });
-    console.log(res, "here res");
     return res;
   }
 );
@@ -100,8 +93,6 @@ export const toToggleFavorite = createAsyncThunk(
 export const getUserCardsById = createAsyncThunk(
   "cards/getUserCardsById",
   async (id, thunkAPI) => {
-    console.log(id, "thunk");
-    // const userId = value.userId ? value.userId : state.users.auth.id;
     const res = await fetchUserAllCardsById(id);
     return res;
   }
@@ -142,7 +133,6 @@ export const cardsSlice = createSlice({
         state.loading = true;
       })
       .addCase(createNewCard.fulfilled, (state, { payload }) => {
-        console.log(payload, "payload");
         state.loading = false;
         state.cards = payload;
       })
@@ -153,7 +143,6 @@ export const cardsSlice = createSlice({
         state.loading = true;
       })
       .addCase(getFavoriteCards.fulfilled, (state, { payload }) => {
-        console.log(payload, " getFavoriteCards payload");
         state.loading = false;
         state.cards = payload;
       })
@@ -164,7 +153,6 @@ export const cardsSlice = createSlice({
         state.loading = true;
       })
       .addCase(toToggleFavorite.fulfilled, (state, { payload }) => {
-        console.log(payload, "here pppp");
         state.loading = false;
         state.cards = payload;
       })

@@ -18,3 +18,8 @@
 .filterButtons {
     background-color: aliceblue;
 }
+.loaderCard{
+    display: flex;
+    justify-content: center;
+    padding: 10px
+}

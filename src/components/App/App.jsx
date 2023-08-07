@@ -12,7 +12,6 @@ import { UserPage } from "components/features/pages/UserPage/UserPage";
 
 function App() {
   const auth = useSelector(getAuthUser);
-  console.log(auth, "auth");
   return (
     <div className="App">
       <Routes>

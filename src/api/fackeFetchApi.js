@@ -34,7 +34,6 @@ export const fetchToggleFavorite = (id) => {
 };
 
 export const fetchUserAllCardsById = (id) => {
-  console.log(id, "kkkk");
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const allCards = JSON.parse(localStorage.getItem("cards"));
@@ -43,7 +42,6 @@ export const fetchUserAllCardsById = (id) => {
           return card;
         }
       });
-      console.log(userCards, "userCards");
       resolve(userCards);
     }, 1000);
   });
@@ -96,7 +94,6 @@ export const createCardApi = (data) => {
         id,
         createdDate: getCreatedDate(createdDate),
       };
-      console.log(mappedValues, "mappedValues");
       localStorage.removeItem("cards");
       cards.push(mappedValues);
       localStorage.setItem("cards", JSON.stringify(cards));
@@ -124,14 +121,12 @@ export const getAllFavoriteCardsById = (userId) => {
           return card;
         }
       });
-      console.log(favoriteCards, "favoriteCards");
       resolve(favoriteCards);
     }, 1000);
   });
 };
 
 export const updateCardById = (values) => {
-  console.log(values, "ddddd");
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const allCards = JSON.parse(localStorage.getItem("cards"));

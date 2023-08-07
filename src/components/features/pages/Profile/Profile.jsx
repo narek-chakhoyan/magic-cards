@@ -9,7 +9,6 @@ export const Profile = () => {
   const allCards = useSelector(getCards);
   const auth = useSelector(getAuthUser);
   const dispatch = useDispatch();
-    console.log(auth.id,"auth.idauth.id")
   useEffect(() => {
     dispatch(getUserCardsById(auth.id));
   }, []);

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FilterButtons } from "components/features/pages/Feed/FilterButtons/FilterButtons";
 import { loadingCards } from "store/redux/slices/cardsSlice";
+import Loader from "components/common/Loader/Loader";
 
 const DashboardLayout = ({ children, userPage }) => {
   const [allUsers, setAllUsers] = useState([]);
@@ -34,7 +35,14 @@ const DashboardLayout = ({ children, userPage }) => {
         <FilterButtons userPage={userPage} />
 
         <div className={styles.mainContainer}>
-          {cardsLoading ? "Loading(...)" : <div>{children}</div>}
+          {cardsLoading ? (
+            <div className={styles.loaderCard}>
+              
+              <Loader />
+            </div>
+          ) : (
+            <div>{children}</div>
+          )}
         </div>
       </div>
     </div>
