@@ -34,7 +34,7 @@ export const fetchToggleFavorite = (id) => {
 };
 
 export const fetchUserAllCardsById = (id) => {
-  console.log(id,"kkkk");
+  console.log(id, "kkkk");
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const allCards = JSON.parse(localStorage.getItem("cards"));
@@ -43,7 +43,7 @@ export const fetchUserAllCardsById = (id) => {
           return card;
         }
       });
-      console.log(userCards,"userCards")
+      console.log(userCards, "userCards");
       resolve(userCards);
     }, 1000);
   });
@@ -51,13 +51,21 @@ export const fetchUserAllCardsById = (id) => {
 
 export const loginUserApi = (loginUser) => {
   return new Promise((resolve, reject) => {
-    const data = JSON.parse(localStorage.getItem("users"));
-    const currentUser = data.find((user) => user.email === loginUser.email);
-    if (!currentUser) {
-      reject("There is no user registered");
-    }
-    const { password, ...lginData } = currentUser;
-    resolve(lginData);
+    setTimeout(() => {
+      const data = JSON.parse(localStorage.getItem("users"));
+      const currentUser = data.find(
+        (user) =>
+          user.email === loginUser?.email && user.password === loginUser?.password
+      );
+      if (!currentUser) {
+        reject("There is no user registered");
+      }
+      if(currentUser){
+        const { password, ...loginData } = currentUser;
+        resolve(loginData);
+      }
+     
+    }, 2000);
   });
 };
 
@@ -107,12 +115,12 @@ export const getAllFavoriteCards = () => {
   });
 };
 
-export const getAllFavoriteCardsById =(userId)=>{
+export const getAllFavoriteCardsById = (userId) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const allCards = JSON.parse(localStorage.getItem("cards"));
       const favoriteCards = allCards.filter((card) => {
-        if(+userId === +card.authorId && card.favorites){
+        if (+userId === +card.authorId && card.favorites) {
           return card;
         }
       });
@@ -120,10 +128,10 @@ export const getAllFavoriteCardsById =(userId)=>{
       resolve(favoriteCards);
     }, 1000);
   });
-}
+};
 
 export const updateCardById = (values) => {
-  console.log(values,"ddddd")
+  console.log(values, "ddddd");
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const allCards = JSON.parse(localStorage.getItem("cards"));
@@ -171,6 +179,6 @@ export const registerUserApi = (user) => {
       localStorage.setItem("users", JSON.stringify(allUsers));
       const { password, ...data } = mappedValue;
       resolve({ users: allUsers, user: data });
-    }, 2000);
+    }, 3000);
   });
 };

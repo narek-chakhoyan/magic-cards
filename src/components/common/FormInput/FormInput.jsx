@@ -12,13 +12,17 @@ const FormInput = (props) => {
 
   return (
     <div className={styles.formInput}>
-      <input
-        {...inputProps}
-        onChange={handleChange}
-        focused={focused.toString()}
-        onBlur = {handleFocus}
-      />
-      <span>{errorMessage}</span>
+      <div>
+        <input
+          {...inputProps}
+          onChange={handleChange}
+          focused={focused.toString()}
+          onBlur={handleFocus}
+        />
+        <div className={styles.errorMessage}>
+          <span>{errorMessage}</span>
+        </div>
+      </div>
     </div>
   );
 };

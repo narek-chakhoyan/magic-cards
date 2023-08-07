@@ -56,7 +56,7 @@ export const Header = () => {
                 <NavLink to="/profile">Profile</NavLink>
               </div>
 
-              <div onClick={openCreateCardModal}>Create Card</div>
+               <div onClick={openCreateCardModal}>Create Card</div>
             </div>
           ) : pathname === "/login" ? (
             <NavLink to="/signup">Signup</NavLink>

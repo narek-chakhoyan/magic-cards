@@ -12,8 +12,8 @@ const loginInputs = [
     name: "password",
     type: "password",
     placeholder: "Password",
-    errorMessage: "Password should be 6-10 characters.",
-    pattern: "^[A-Za-z0-9]{3,20}",
+    errorMessage: "Password should be 4-40 characters.",
+    pattern: "^[A-Za-z0-9]{4,40}",
     required: true,
   },
 ];

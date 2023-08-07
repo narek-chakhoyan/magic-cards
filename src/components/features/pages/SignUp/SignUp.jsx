@@ -4,13 +4,17 @@ import { useLocation, Navigate, Outlet } from "react-router-dom";
 
 import FormInput from "components/common/FormInput/FormInput";
 import {
+  errorMessage,
   getAuthUser,
+  isLoading,
   registerCurrentUser,
+  resetErrorMessage,
 } from "store/redux/slices/usersSlice";
 import signupInputs from "./staticData";
 
 import styles from "./style.module.css";
 import { useNavigate } from "react-router";
+import Loader from "components/common/Loader/Loader";
 
 export const SignUp = () => {
   const [values, setValues] = useState({
@@ -21,6 +25,8 @@ export const SignUp = () => {
 
   const navigate = useNavigate();
   const auth = useSelector(getAuthUser);
+  const loading = useSelector(isLoading);
+  const getError = useSelector(errorMessage);
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -33,33 +39,43 @@ export const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(registerCurrentUser({ registerUser: values }));
+    dispatch(resetErrorMessage());
   };
 
-  useEffect(()=>{
-    if(auth?.email){
+  useEffect(() => {
+    if (auth?.email) {
       navigate("/");
     }
-  },[auth]);
+  }, [auth]);
 
-  return  (
-    <div>
-      <div>
+  return (
+    <div className={styles.signupContainer}>
+      <div className={styles.signupTitle}>
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore aut
         voluptatum ab et. Iste amet totam non maiores quas ex explicabo nobis!
         Aspernatur architecto nam distinctio nostrum, quae ipsum totam?
       </div>
       <div className={styles.formContainer}>
-        <form onSubmit={handleSubmit}>
-          {signupInputs.map((input) => (
-            <FormInput
-              {...input}
-              key={input.id}
-              value={values[input.name]}
-              handleChange={handleChange}
-            />
-          ))}
-          <button>Register</button>
-        </form>
+        {loading ? (
+          <Loader />
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <h2>Sign Up</h2>
+            {getError.error && <h4 className = {styles.errorText}>{getError.text}</h4>}
+            <h4></h4>
+            {signupInputs.map((input) => (
+              <FormInput
+                {...input}
+                key={input.id}
+                value={values[input.name]}
+                handleChange={handleChange}
+              />
+            ))}
+            <div className={styles.signupBtn}>
+              <button>Register</button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );

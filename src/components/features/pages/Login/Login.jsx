@@ -8,13 +8,22 @@ import loginInputs from "./staticData";
 
 import styles from "./style.module.css";
 import { useSelector } from "react-redux";
-import { getAuthUser, loginUser } from "store/redux/slices/usersSlice";
+import {
+  errorMessage,
+  getAuthUser,
+  isLoading,
+  loginUser,
+  resetErrorMessage,
+} from "store/redux/slices/usersSlice";
+import Loader from "components/common/Loader/Loader";
 
 export const Login = () => {
   const auth = useSelector(getAuthUser);
+  const loading = useSelector(isLoading);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const errors = useSelector(errorMessage);
 
   const [values, setValues] = useState({
     email: "",
@@ -30,7 +39,7 @@ export const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(values, "here");
+    dispatch(resetErrorMessage());
     dispatch(loginUser(values));
   };
 
@@ -39,7 +48,6 @@ export const Login = () => {
       navigate("/");
     }
   }, [auth]);
-
   return (
     <div className={styles.loginContainer}>
       <div className={styles.loginTitle}>
@@ -48,26 +56,33 @@ export const Login = () => {
         Aspernatur architecto nam distinctio nostrum, quae ipsum totam?
       </div>
       <div className={styles.formContainer}>
-        <div>
-          <h2>Log in</h2>
-          <form onSubmit={handleSubmit}>
-            {loginInputs.map((input) => (
-              <FormInput
-                {...input}
-                key={input.id}
-                value={values[input.name]}
-                handleChange={handleChange}
-              />
-            ))}
-            <div className={styles.rememberBtn}>
-              <label for ="rememberme">Remember Me</label>
-              <input id ="rememberme"type="checkbox" />
-            </div>
-            <div className={styles.loginBtn}>
-              <button>Login</button>
-            </div>
-          </form>
-        </div>
+        {loading ? (
+          <Loader />
+        ) : (
+          <div>
+            <h2>Log in</h2>
+            {errors.error && (
+              <h4 className={styles.errorText}>{errors.text}</h4>
+            )}
+            <form onSubmit={handleSubmit}>
+              {loginInputs.map((input) => (
+                <FormInput
+                  {...input}
+                  key={input.id}
+                  value={values[input.name]}
+                  handleChange={handleChange}
+                />
+              ))}
+              <div className={styles.rememberBtn}>
+                <label htmlFor="rememberme">Remember Me</label>
+                <input id="rememberme" type="checkbox" />
+              </div>
+              <div className={styles.loginBtn}>
+                <button>Login</button>
+              </div>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );

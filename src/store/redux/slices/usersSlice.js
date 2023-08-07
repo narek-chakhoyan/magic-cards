@@ -3,11 +3,17 @@ import { fackeFetchApi, loginUserApi, registerUserApi } from "api/fackeFetchApi"
 
 export const getAuthUser = (state) => state.users.auth;
 export const getUsers = (state) => state.users.users;
+export const errorMessage = (state) => state.users.errorMessage;
+export const isLoading = (state) => state.users.loading;
 
 const initialState = {
   auth: null,
   users: [],
   loading: false,
+  errorMessage: {
+    error: false,
+    text: "",
+  },
 };
 
 export const getAllUsers = createAsyncThunk("users/getAllUsers", async (value) => {
@@ -35,8 +41,11 @@ export const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
-    setStatusTest: (state, action) => {
-      state.test = true;
+    resetErrorMessage: (state, action) => {
+      state.errorMessage = {
+        error: false,
+        text: "",
+      };
     },
   },
   extraReducers: (builder) => {
@@ -49,8 +58,11 @@ export const usersSlice = createSlice({
         state.auth = payload.user;
         state.loading = false;
       })
-      .addCase(registerCurrentUser.rejected, (state) => {
-        console.log("rejected");
+      .addCase(registerCurrentUser.rejected, (state,{error}) => {
+        state.errorMessage = {
+          error: true,
+          text: error.message,
+        };
         state.loading = false;
       })
       .addCase(getAllUsers.pending, (state) => {
@@ -67,16 +79,16 @@ export const usersSlice = createSlice({
         state.loading = true;
       })
       .addCase(loginUser.fulfilled, (state, { payload }) => {
-        console.log(payload, "payload here");
         state.loading = false;
         state.auth = payload;
       })
-      .addCase(loginUser.rejected, (state) => {
+      .addCase(loginUser.rejected, (state, { error }) => {
+        state.errorMessage = { error: true, text: error.message };
         state.loading = false;
       });
   },
 });
 
-export const { setStatusTest } = usersSlice.actions;
+export const { resetErrorMessage } = usersSlice.actions;
 
 export default usersSlice.reducer;

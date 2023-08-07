@@ -1,12 +1,17 @@
 .formInput input{
+    box-sizing: border-box;
+    width: 100%;
     margin-top: 2px;
-    padding:5px 10px;
-    border-radius: 5px;
+    padding:10px 10px;
+    border-radius: 0px;
     outline: none;
     border:none;
 }
-
-span {
+.errorMessage{
+    width: 400px;
+    height: 25px;
+}
+.errorMessage span{
     display: none;
     color: red;
 }
@@ -15,6 +20,6 @@ input:invalid[focused="true"]{
     border: 1px solid red;
 }
 
-input:invalid[focused="true"] ~ span {
+input:invalid[focused="true"] ~ .errorMessage span {
     display: block
 }
