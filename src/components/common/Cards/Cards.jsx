@@ -8,12 +8,14 @@ import {
   toToggleFavorite,
   updateCurrentCard,
 } from "store/redux/slices/cardsSlice";
+import { useNavigate } from "react-router";
 
 export const Cards = ({ allCards, adminPage }) => {
   const [editCard, setEditCard] = useState(null);
   const auth = useSelector(getAuthUser);
   const users = useSelector(getUsers);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const getAuthorName = (id) => {
     return users.find((user) => user.id === id);
@@ -37,20 +39,6 @@ export const Cards = ({ allCards, adminPage }) => {
   const handleEditCard = (card) => {
     setEditCard(card);
   };
-
-//   const getCreatedDate = (date) => {
-//     const dateObject = new Date(date);
-
-//     const year = dateObject.getFullYear();
-//     const month = String(dateObject.getMonth() + 1).padStart(2, "0");
-//     const day = String(dateObject.getDate()).padStart(2, "0");
-
-//     const hours = String(dateObject.getHours()).padStart(2, "0");
-// const minutes = String(dateObject.getMinutes()).padStart(2, "0");
-// const seconds = String(dateObject.getSeconds()).padStart(2, "0");
-
-//     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-//   };
 
   const getCardTitleDescription = useCallback(
     (card) => {
@@ -128,7 +116,10 @@ export const Cards = ({ allCards, adminPage }) => {
                   <div>
                     <label>Favorite</label>
                     <input
-                      onChange={() => toggleFavorite(card.id)}
+                      onChange={() => {
+                        navigate("/");
+                        return toggleFavorite(card.id);
+                      }}
                       type="checkbox"
                       checked={card?.favorites}
                     />

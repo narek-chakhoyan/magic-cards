@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation,useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { CardModal } from "components/common/CardModal/CardModal";
 import { createNewCard } from "store/redux/slices/cardsSlice";
@@ -10,6 +10,7 @@ import { getAuthUser } from "store/redux/slices/usersSlice";
 export const Header = () => {
   const auth = useSelector(getAuthUser);
   const location = useLocation();
+  const navigate = useNavigate();
   const { pathname } = location;
   const [cardValues, setCardValues] = useState({
     title: "",
@@ -41,6 +42,7 @@ export const Header = () => {
   const createCard = () => {
     setOpenModal(false);
     dispatch(createNewCard(cardValues));
+    navigate("/");
   };
 
   return (

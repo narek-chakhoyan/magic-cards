@@ -1,9 +1,6 @@
 export const fackeFetchApi = (key) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      // const rendomNum = Math.random();
-      // if (rendomNum < 0.3) reject();
-
       const result = localStorage.getItem(key);
 
       if (!result) {
@@ -53,36 +50,36 @@ export const loginUserApi = (loginUser) => {
       const data = JSON.parse(localStorage.getItem("users"));
       const currentUser = data.find(
         (user) =>
-          user.email === loginUser?.email && user.password === loginUser?.password
+          user.email === loginUser?.email &&
+          user.password === loginUser?.password
       );
       if (!currentUser) {
         reject("There is no user registered");
       }
-      if(currentUser){
+      if (currentUser) {
         const { password, ...loginData } = currentUser;
         resolve(loginData);
       }
-     
     }, 2000);
   });
 };
 
 export const createCardApi = (data) => {
   return new Promise((resolve, reject) => {
-    const id = Math.random() * 100;
+    const id = (Math.random() * 100).toString().replace(/\D/g, "");
     const createdDate = new Date();
 
     const getCreatedDate = (date) => {
       const dateObject = new Date(date);
-  
+
       const year = dateObject.getFullYear();
       const month = String(dateObject.getMonth() + 1).padStart(2, "0");
       const day = String(dateObject.getDate()).padStart(2, "0");
-  
+
       const hours = String(dateObject.getHours()).padStart(2, "0");
-  const minutes = String(dateObject.getMinutes()).padStart(2, "0");
-  const seconds = String(dateObject.getSeconds()).padStart(2, "0");
-  
+      const minutes = String(dateObject.getMinutes()).padStart(2, "0");
+      const seconds = String(dateObject.getSeconds()).padStart(2, "0");
+
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     };
 
@@ -156,7 +153,7 @@ export const updateCardById = (values) => {
 export const registerUserApi = (user) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const id = Math.random() * 100;
+      const id = (Math.random() * 100).toString().replace(/\D/g, "");
       const allUsers = JSON.parse(localStorage.getItem("users")) ?? [];
       const isExsists = allUsers.find((registeredUser) => {
         return registeredUser.email === user.email;

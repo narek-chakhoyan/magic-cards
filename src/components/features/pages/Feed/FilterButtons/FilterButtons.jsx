@@ -29,10 +29,12 @@ export const FilterButtons = ({ userPage }) => {
           All
         </div>
         <div
-          onClick={() =>
-            userPage
+          onClick={() => {
+            return userPage
               ? dispatch(getFavoritesById(id ? id : auth.id))
               : dispatch(getFavoriteCards())
+          } 
+            
           }
         >
           Favorites
