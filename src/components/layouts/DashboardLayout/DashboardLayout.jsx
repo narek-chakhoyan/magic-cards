@@ -1,11 +1,12 @@
 import { useSelector } from "react-redux";
-import styles from "./style.module.css";
-import { getAuthUser, getUsers } from "store/redux/slices/usersSlice";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { getAuthUser, getUsers } from "store/redux/slices/usersSlice";
 import { FilterButtons } from "components/features/pages/Feed/FilterButtons/FilterButtons";
 import { loadingCards } from "store/redux/slices/cardsSlice";
 import Loader from "components/common/Loader/Loader";
+
+import styles from "./style.module.css";
 
 const DashboardLayout = ({ children, userPage }) => {
   const [allUsers, setAllUsers] = useState([]);
@@ -37,7 +38,6 @@ const DashboardLayout = ({ children, userPage }) => {
         <div className={styles.mainContainer}>
           {cardsLoading ? (
             <div className={styles.loaderCard}>
-              
               <Loader />
             </div>
           ) : (

@@ -12,6 +12,7 @@ export const Profile = () => {
   useEffect(() => {
     dispatch(getUserCardsById(auth.id));
   }, []);
+
   return (
     <div>
       <DashboardLayout userPage>

@@ -1,3 +1,5 @@
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
 import {
   getUserCardsById,
   getAllCards,
@@ -6,8 +8,6 @@ import {
   getOldtoNewCards,
   getFavoritesById,
 } from "store/redux/slices/cardsSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
 import { getAuthUser } from "store/redux/slices/usersSlice";
 
 import styles from "./style.module.css";
@@ -32,10 +32,8 @@ export const FilterButtons = ({ userPage }) => {
           onClick={() => {
             return userPage
               ? dispatch(getFavoritesById(id ? id : auth.id))
-              : dispatch(getFavoriteCards())
-          } 
-            
-          }
+              : dispatch(getFavoriteCards());
+          }}
         >
           Favorites
         </div>

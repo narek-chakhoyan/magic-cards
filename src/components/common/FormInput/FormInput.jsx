@@ -5,10 +5,10 @@ const FormInput = (props) => {
   const { handleChange, errorMessage, ...inputProps } = props;
 
   const [focused, setFocused] = useState(false);
-  
-  const handleFocus =()=>{
+
+  const handleFocus = () => {
     setFocused(true);
-  }
+  };
 
   return (
     <div className={styles.formInput}>

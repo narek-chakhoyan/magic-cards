@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, Navigate, Outlet } from "react-router-dom";
-
+import { useNavigate } from "react-router";
 import FormInput from "components/common/FormInput/FormInput";
+
 import {
   errorMessage,
   getAuthUser,
@@ -11,10 +11,8 @@ import {
   resetErrorMessage,
 } from "store/redux/slices/usersSlice";
 import signupInputs from "./staticData";
-
-import styles from "./style.module.css";
-import { useNavigate } from "react-router";
 import Loader from "components/common/Loader/Loader";
+import styles from "./style.module.css";
 
 export const SignUp = () => {
   const [values, setValues] = useState({
@@ -43,6 +41,12 @@ export const SignUp = () => {
   };
 
   useEffect(() => {
+    if (getError.error) {
+      dispatch(resetErrorMessage());
+    }
+  }, []);
+
+  useEffect(() => {
     if (auth?.email) {
       navigate("/");
     }
@@ -61,7 +65,9 @@ export const SignUp = () => {
         ) : (
           <form onSubmit={handleSubmit}>
             <h2>Sign Up</h2>
-            {getError.error && <h4 className = {styles.errorText}>{getError.text}</h4>}
+            {getError.error && (
+              <h4 className={styles.errorText}>{getError.text}</h4>
+            )}
             <h4></h4>
             {signupInputs.map((input) => (
               <FormInput

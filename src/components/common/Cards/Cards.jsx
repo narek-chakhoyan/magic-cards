@@ -1,14 +1,12 @@
 import { useCallback, useState } from "react";
-
-import { getAuthUser, getUsers } from "store/redux/slices/usersSlice";
 import { useSelector, useDispatch } from "react-redux";
-
-import styles from "./style.module.css";
+import { useNavigate } from "react-router";
+import { getAuthUser, getUsers } from "store/redux/slices/usersSlice";
 import {
   toToggleFavorite,
   updateCurrentCard,
 } from "store/redux/slices/cardsSlice";
-import { useNavigate } from "react-router";
+import styles from "./style.module.css";
 
 export const Cards = ({ allCards, adminPage }) => {
   const [editCard, setEditCard] = useState(null);

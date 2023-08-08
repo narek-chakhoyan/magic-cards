@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import FormInput from "components/common/FormInput/FormInput";
 import loginInputs from "./staticData";
-
-import styles from "./style.module.css";
-import { useSelector } from "react-redux";
+import Loader from "components/common/Loader/Loader";
 import {
   errorMessage,
   getAuthUser,
@@ -15,7 +11,8 @@ import {
   loginUser,
   resetErrorMessage,
 } from "store/redux/slices/usersSlice";
-import Loader from "components/common/Loader/Loader";
+
+import styles from "./style.module.css";
 
 export const Login = () => {
   const auth = useSelector(getAuthUser);
@@ -42,6 +39,12 @@ export const Login = () => {
     dispatch(resetErrorMessage());
     dispatch(loginUser(values));
   };
+
+  useEffect(() => {
+    if (errors.error) {
+      dispatch(resetErrorMessage());
+    }
+  }, []);
 
   useEffect(() => {
     if (auth?.email) {

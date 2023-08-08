@@ -1,32 +1,19 @@
 import {
   createAsyncThunk,
-  createSelector,
   createSlice,
 } from "@reduxjs/toolkit";
 import {
   createCardApi,
   fackeFetchApi,
-  fetchAdminAllCards,
   fetchToggleFavorite,
   fetchUserAllCardsById,
   getAllFavoriteCards,
   getAllFavoriteCardsById,
   updateCardById,
 } from "api/fackeFetchApi";
-import thunk from "redux-thunk";
 
 export const getCards = (state) => state.cards.cards;
-export const loadingCards = (state) =>state.cards.loading;
-
-// export const selectCardById = createSelector(
-//   [getCards, (state, id) => id],
-//   (cards, id) => {
-//     if (id !== undefined) {
-//       return cards.filter((card) => card.id === id);
-//     }
-//     return cards;
-//   }
-// );
+export const loadingCards = (state) => state.cards.loading;
 
 const initialState = {
   cards: [],

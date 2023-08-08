@@ -3,9 +3,9 @@ import { NavLink, useLocation,useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { CardModal } from "components/common/CardModal/CardModal";
 import { createNewCard } from "store/redux/slices/cardsSlice";
+import { getAuthUser } from "store/redux/slices/usersSlice";
 
 import styles from "./header.module.css";
-import { getAuthUser } from "store/redux/slices/usersSlice";
 
 export const Header = () => {
   const auth = useSelector(getAuthUser);
